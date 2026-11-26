@@ -1,6 +1,6 @@
 # Profil développeur
 
-Application Android en Jetpack Compose qui présente Melvyn G., étudiant à l’ESGI et développeur Android junior. La fiche affiche son avatar, sa disponibilité, ses compétences, deux projets et une adresse e-mail fictive. Le bouton de contact copie cette adresse dans le presse-papiers.
+Application Android en Jetpack Compose qui présente Melvyn G., étudiant à l’ESGI et développeur Android junior. La fiche affiche son avatar, sa disponibilité, ses compétences, deux projets et son adresse e-mail. Le bouton de contact copie cette adresse dans le presse-papiers.
 
 ## Captures d’écran
 
