@@ -1,48 +1,43 @@
-# Profil développeur Compose
+# Profil développeur
 
-Cette application Android présente une fiche de développeur junior inspirée de mon profil étudiant à l’ESGI.\
-Elle affiche un nom, un rôle, une description, trois compétences, une disponibilité et un contact fictif.\
-Un bouton de contact et une zone de portfolio transmettent des événements de clic via des callbacks.\
-Deux previews présentent des profils différents.
+Application Android en Jetpack Compose qui présente Melvyn G., étudiant à l’ESGI et développeur Android junior. La fiche affiche son avatar, sa disponibilité, ses compétences, deux projets et une adresse e-mail fictive. Le bouton de contact copie cette adresse dans le presse-papiers.
 
-## Capture de l’application
+## Captures d’écran
 
-Capture réelle de l’application exécutée sur Android :
+Les deux captures ont été prises sur un émulateur Android.
 
-![Fiche de Melvyn avec ses compétences et ses actions](docs/profil-android.png)
+| Thème clair | Thème sombre |
+| --- | --- |
+| <img src="docs/profil-clair.png" alt="Fiche développeur en thème clair" width="320"> | <img src="docs/profil-sombre.png" alt="Fiche développeur en thème sombre" width="320"> |
 
-Les adresses en `example.com` sont fictives. Les clics sont volontairement sans effet, comme l’autorise le sujet.
+## Composants Compose
 
-## Notions utilisées
+- `Text` affiche les titres, la présentation et les descriptions.
+- `Image` affiche l’avatar aux initiales de Melvyn, tandis que les `Icon` accompagnent les projets et l’action de copie.
+- `Card` regroupe la présentation, chaque projet et le contact. `Surface` donne une forme et une couleur aux compétences, au badge et aux icônes.
+- `OutlinedTextField` présente l’adresse e-mail en lecture seule. `Button` appelle le callback de copie.
 
-- Fonctions `@Composable`, paramètres et composants réutilisables.
-- `Text`, `Button`, `Surface` et `Column`.
-- `Modifier`, `fillMaxWidth`, `padding` et chaînage des modifiers.
-- Padding externe et interne.
-- Callbacks de type `() -> Unit`.
-- Zone `clickable`, `Role.Button`, `semantics` et `contentDescription`.
-- `MainActivity`, `setContent`, thème Material, `Scaffold` et `innerPadding`.
-- Deux variantes avec `@Preview`.
+## Layouts et liste des projets
 
-## Réponses aux questions
+- `Scaffold` fournit les marges des barres système. Une `Box` centre la fiche sur les écrans larges.
+- `Column` empile les éléments des cartes. `Row` aligne les icônes, l’avatar et les textes qui les accompagnent. `Spacer` règle les espacements.
+- `FlowRow` permet aux compétences de passer à la ligne quand la largeur disponible diminue.
+- Une seule `LazyColumn` fait défiler toute la fiche. Sa fonction `items(profile.projects)` associe chaque objet `Project` à un `ProjectCard` réutilisable. Les données sont définies directement en Kotlin dans [DeveloperProfile.kt](app/src/main/java/fr/esgi/profilcompose/DeveloperProfile.kt).
 
-1. **Quels composables avez-vous créés ?**\
-   `DeveloperProfileScreen`, `ProfileCard`, `ProfileHeader`, `SkillItem`, `SecondaryInformation`, `ProfileAction` et `PortfolioAction`. Le thème `ProfilComposeTheme` les enveloppe ; `AndroidProfilePreview` et `FullStackProfilePreview` permettent de les prévisualiser.
+## Thème Material 3
 
-2. **Quel composable représente l’écran principal ?**\
-   `DeveloperProfileScreen`. Il utilise un `Scaffold`, applique son `innerPadding` et place la fiche.
+Le thème suit le réglage clair ou sombre d’Android. Deux palettes vertes personnalisent `MaterialTheme.colorScheme`. Le vert clair accentue la disponibilité et les tons plus foncés structurent les cartes et l’arrière-plan. La typographie distingue le nom, les titres de section et les descriptions. Les formes arrondies de `MaterialTheme.shapes` sont communes aux deux modes.
 
-3. **Où utilisez-vous un padding externe ?**\
-   Dans `DeveloperProfileScreen`, le parent transmet à `ProfileCard` un modifier avec `padding(8.dp)`. Ce padding est appliqué à l’extérieur de la surface : il éloigne la fiche des bords de l’écran.
+Les previews **Clair** et **Sombre** affichent le même profil dans [DeveloperProfileScreen.kt](app/src/main/java/fr/esgi/profilcompose/DeveloperProfileScreen.kt).
 
-4. **Où utilisez-vous un padding interne ?**\
-   Dans `ProfileCard`, la `Column` située dans la `Surface` utilise `padding(8.dp)`. Cet espace sépare le contenu du bord intérieur de la fiche.
+## Quelles notions du chapitre Compose UI avez-vous réutilisées ?
 
-5. **Quel composant reçoit un callback ?**\
-   `ProfileAction` reçoit `onClick` et le transmet à `Button`. Le callback de contact est défini dans `MainActivity`, puis transmis par l’écran et la fiche. `PortfolioAction` reçoit également un callback. Les composants signalent le clic sans réaliser de traitement avancé.
+J’ai combiné les layouts pour structurer la fiche, créé des cartes et des badges réutilisables, affiché les projets avec une liste paresseuse et relié le bouton de contact à un callback. Le thème Material 3 applique les mêmes styles et formes aux deux modes, que les previews permettent de comparer.
 
-6. **Quelle information d’accessibilité avez-vous ajoutée ?**\
-   La zone personnalisée `PortfolioAction` possède `clickable(role = Role.Button)` et une sémantique `contentDescription = "Ouvrir le portfolio de $owner"`. Le lecteur d’écran peut donc identifier son rôle et son intention. Son padding de `16.dp`, placé après `clickable`, agrandit aussi la zone interactive. Le `Button` de contact fournit déjà le rôle et les sémantiques d’un bouton standard, avec un libellé visible explicite.
+## Lancer le projet
 
-7. **Pourquoi vos composants peuvent-ils être considérés comme réutilisables ?**\
-   Les huit composables de l’interface et du thème reçoivent des paramètres. Chacun des sept composants de l’interface accepte et utilise `modifier: Modifier = Modifier`. Les textes, les compétences et les actions sont transmis par le parent. Les deux previews réutilisent le même écran avec des noms, rôles, descriptions, compétences et disponibilités différents.
+Ouvrir le projet dans Android Studio avec le SDK Android 37, puis lancer le module `app` sur un émulateur ou un appareil Android compatible. Depuis PowerShell, la compilation et le lint se lancent avec le wrapper Gradle.
+
+```powershell
+.\gradlew.bat :app:assembleDebug :app:lintDebug
+```
