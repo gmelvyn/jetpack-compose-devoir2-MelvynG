@@ -22,10 +22,10 @@ internal data class Project(
 internal val melvynProfile = DeveloperProfile(
     name = "Melvyn G.",
     role = "Développeur Android junior",
-    bio = "Étudiant à l’ESGI, je crée mes premières applications Android avec Kotlin et Jetpack Compose.",
+    bio = "Étudiant à l’ESGI, je crée des apps Android avec Kotlin et Jetpack Compose.",
     availability = "Disponible",
     email = "melvyn@example.com",
-    avatar = R.drawable.ic_profile,
+    avatar = R.drawable.avatar_melvyn,
     skills = listOf("Kotlin", "Jetpack Compose", "Git & GitHub"),
     projects = listOf(
         Project(

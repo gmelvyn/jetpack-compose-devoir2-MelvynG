@@ -1,6 +1,8 @@
 package fr.esgi.profilcompose
 
+import android.content.res.Configuration
 import androidx.annotation.DrawableRes
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -38,6 +40,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.heading
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import fr.esgi.profilcompose.ui.theme.ProfilComposeTheme
 
@@ -54,7 +57,7 @@ internal fun DeveloperProfileScreen(
         ) {
             LazyColumn(
                 modifier = Modifier.widthIn(max = 640.dp).fillMaxSize(),
-                contentPadding = PaddingValues(start = 20.dp, top = 12.dp, end = 20.dp, bottom = 24.dp),
+                contentPadding = PaddingValues(start = 20.dp, top = 12.dp, end = 20.dp, bottom = 16.dp),
                 verticalArrangement = Arrangement.spacedBy(12.dp)
             ) {
                 item {
@@ -94,7 +97,7 @@ private fun ProfileToolbar(modifier: Modifier = Modifier) {
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(10.dp)
     ) {
-        IconTile(icon = R.drawable.ic_code, size = 36)
+        IconTile(icon = R.drawable.ic_code, size = 36.dp)
         Text(
             text = stringResource(R.string.app_name),
             style = MaterialTheme.typography.titleMedium
@@ -121,22 +124,26 @@ private fun ProfileHeader(profile: DeveloperProfile, modifier: Modifier = Modifi
                 Image(
                     painter = painterResource(profile.avatar),
                     contentDescription = null,
-                    modifier = Modifier.size(72.dp).clip(MaterialTheme.shapes.large)
+                    modifier = Modifier.size(76.dp).clip(MaterialTheme.shapes.large)
                 )
                 Box(modifier = Modifier.weight(1f), contentAlignment = Alignment.CenterEnd) {
                     AvailabilityBadge(label = profile.availability)
                 }
             }
-            Spacer(Modifier.height(16.dp))
+            Spacer(Modifier.height(14.dp))
             Text(
                 text = profile.name,
                 style = MaterialTheme.typography.headlineLarge,
                 modifier = Modifier.semantics { heading() }
             )
             Spacer(Modifier.height(4.dp))
-            Text(text = profile.role, style = MaterialTheme.typography.titleMedium)
-            Spacer(Modifier.height(12.dp))
-            Text(text = profile.bio, style = MaterialTheme.typography.bodyMedium)
+            Text(
+                text = profile.role,
+                style = MaterialTheme.typography.titleMedium,
+                color = MaterialTheme.colorScheme.onPrimaryContainer.copy(alpha = 0.86f)
+            )
+            Spacer(Modifier.height(10.dp))
+            Text(text = profile.bio, style = MaterialTheme.typography.bodyLarge)
         }
     }
 }
@@ -199,14 +206,15 @@ private fun ProjectCard(project: Project, modifier: Modifier = Modifier) {
     Card(
         modifier = modifier,
         shape = MaterialTheme.shapes.large,
-        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceContainerLow)
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceContainerLow),
+        border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant)
     ) {
         Row(
             modifier = Modifier.padding(14.dp),
             horizontalArrangement = Arrangement.spacedBy(12.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            IconTile(icon = project.icon, size = 44)
+            IconTile(icon = project.icon, size = 44.dp)
             Column(modifier = Modifier.weight(1f)) {
                 Text(text = project.title, style = MaterialTheme.typography.titleMedium)
                 Spacer(Modifier.height(3.dp))
@@ -225,7 +233,8 @@ private fun ContactCard(email: String, onClick: () -> Unit, modifier: Modifier =
     Card(
         modifier = modifier,
         shape = MaterialTheme.shapes.large,
-        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceContainerLow)
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceContainerLow),
+        border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant)
     ) {
         Column(modifier = Modifier.padding(16.dp)) {
             SectionTitle(text = stringResource(R.string.contact))
@@ -258,9 +267,9 @@ private fun ContactCard(email: String, onClick: () -> Unit, modifier: Modifier =
 }
 
 @Composable
-private fun IconTile(@DrawableRes icon: Int, size: Int, modifier: Modifier = Modifier) {
+private fun IconTile(@DrawableRes icon: Int, size: Dp, modifier: Modifier = Modifier) {
     Surface(
-        modifier = modifier.size(size.dp),
+        modifier = modifier.size(size),
         shape = MaterialTheme.shapes.medium,
         color = MaterialTheme.colorScheme.secondaryContainer,
         contentColor = MaterialTheme.colorScheme.onSecondaryContainer
@@ -280,7 +289,8 @@ private fun SectionTitle(text: String, modifier: Modifier = Modifier) {
     )
 }
 
-@Preview(name = "Fiche développeur", showBackground = true, widthDp = 393, heightDp = 851)
+@Preview(name = "Clair", widthDp = 393, heightDp = 851, uiMode = Configuration.UI_MODE_NIGHT_NO)
+@Preview(name = "Sombre", widthDp = 393, heightDp = 851, uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Composable
 private fun ProfilePreview() {
     ProfilComposeTheme {

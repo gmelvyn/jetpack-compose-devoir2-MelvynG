@@ -3,6 +3,6 @@
     <style name="Theme.ProfilCompose" parent="android:style/Theme.Material.Light.NoActionBar">
         <item name="android:fontFamily">sans</item>
         <item name="android:windowLightStatusBar">true</item>
-        <item name="android:windowBackground">#F4F6FA</item>
+        <item name="android:windowBackground">#F2F6EF</item>
     </style>
 </resources>
